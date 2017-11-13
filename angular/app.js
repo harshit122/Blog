@@ -72,10 +72,10 @@ myApp.controller('singleBlogController',['$http',function($http) {
   }// end get parameter by name
 
   this.blogId = this.getParameterByName('blogId');
-  console.log(this.blogId);
+  //console.log(this.blogId);
 
 
-  this.baseUrl = 'http://ec2-52-77-247-196.ap-southeast-1.compute.amazonaws.com:3000/api/blogs';
+  this.baseUrl = 'https://projectsapi.edwisor.com/api/blogs';
 
   this.loadSingeBlog = function(){
    
@@ -119,7 +119,7 @@ myApp.controller('blogCreateController',['$http',function($http) {
   this.pageSubHeading = 'please fill all the data'
  
 
-  this.baseUrl = 'http://ec2-52-77-247-196.ap-southeast-1.compute.amazonaws.com:3000/api/blogs';
+  this.baseUrl = 'https://projectsapi.edwisor.com/api/blogs';
 
   this.createPost = function(){
 
@@ -156,6 +156,171 @@ myApp.controller('blogCreateController',['$http',function($http) {
 
 
   }// end load all blogs
+   
+
+
+}]); // end controller
+
+
+
+
+myApp.controller('blogDeleteController',['$http',function($http) {
+
+  //create a context
+  var main = this;
+
+ this.getParameterByName = function(name){
+
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+
+
+  }// end get parameter by name
+
+  this.blogId = this.getParameterByName('blogId');
+ // this.pageHeading = 'Create a blog post';
+  //this.pageSubHeading = 'please fill all the data'
+ 
+
+  this.baseUrl = 'https://projectsapi.edwisor.com/api/blogs';
+
+  this.deletePost = function(){
+
+   //   var myData ={
+
+     //     heading     : main.heading,
+       //   subHeading  : main.subHeading,
+         // bodyHtml    : main.bodyHtml,
+         // author      : main.author
+
+
+//      }
+
+      console.log(this.blogId);
+   
+      $http({
+        method: 'POST',
+        //data  : myData,
+        url: main.baseUrl+'/' + this.blogId +'/remove'
+      }).then(function successCallback(response) {
+          // this callback will be called asynchronously
+          // when the response is available
+          //console.log(response);
+          alert("blog deleted successfully");
+          window.location = 'index.html';
+          
+
+        }, function errorCallback(response) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+          alert("some error occurred. Check the console.");
+          console.log(response);
+        });
+
+
+  }// end load all blogs
+   
+
+
+}]); // end controller
+
+
+
+
+myApp.controller('blogEditController',['$http',function($http) {
+
+  //create a context
+  var main = this;
+
+ this.getParameterByName = function(name){
+
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+
+
+  }// end get parameter by name
+
+  this.blogId = this.getParameterByName('blogId');
+
+
+  this.baseUrl = 'https://projectsapi.edwisor.com/api/blogs';
+  console.log(this.blogId)
+  
+   
+      $http({
+        method: 'GET',
+        url: main.baseUrl+'/'+main.blogId
+      }).then(function successCallback(response) {
+          // this callback will be called asynchronously
+          // when the response is available
+          //console.log(response);
+          main.blog = response.data.data;
+
+            //this.pageHeading = main.pageHeading
+            //this.pageSubHeading = 'please fill all the data'
+ 
+          console.log(main.blog);
+          this.headi =""
+          this.pageHeading = main.blog.heading;
+          this.pageSubHeading = main.blog.subHeading;
+          this.bodyHtml = main.blog.bodyHtml
+          this.author = main.blog.author
+
+        }, function errorCallback(response) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+          alert("some error occurred. Check the console.");
+          //console.log(response);
+        });
+
+
+  // end load all blogs
+
+  //this.pageHeading = 'Create a blog post';
+  //this.pageSubHeading = 'please fill all the data'
+ 
+
+ // this.baseUrl = 'https://projectsapi.edwisor.com/api/blogs';
+
+  //this.createPost = function(){
+
+    //  var myData ={
+
+     //     heading     : main.heading,
+     //     subHeading  : main.subHeading,
+     //     bodyHtml    : main.bodyHtml,
+     //     author      : main.author
+
+
+     // }
+
+      //console.log(myData);
+   
+     // $http({
+    // //   method: 'POST',
+     //   data  : myData,
+     //   url: main.baseUrl+'/create'
+     // }).then(function successCallback(response) {
+          // this callback will be called asynchronously
+          // when the response is available
+          //console.log(response);
+       //   alert("blog created successfully");
+        //  window.location = 'post.html?blogId='+response.data.data.blogId;
+          
+
+       // }, function errorCallback(response) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+       //   alert("some error occurred. Check the console.");
+      //    console.log(response);
+       // });
+
+
+ //}// end load all blogs
    
 
 
