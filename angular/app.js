@@ -229,7 +229,7 @@ myApp.controller('blogDeleteController',['$http',function($http) {
 
 
 
-myApp.controller('blogEditController',['$http',function($http) {
+myApp.controller('blogEditController',function($scope,$http) {
 
   //create a context
   var main = this;
@@ -247,9 +247,11 @@ myApp.controller('blogEditController',['$http',function($http) {
   this.blogId = this.getParameterByName('blogId');
 
 
+  //$scope.as = "dsa"
+  //console.log(this.as)
   this.baseUrl = 'https://projectsapi.edwisor.com/api/blogs';
   console.log(this.blogId)
-  
+
    
       $http({
         method: 'GET',
@@ -264,11 +266,13 @@ myApp.controller('blogEditController',['$http',function($http) {
             //this.pageSubHeading = 'please fill all the data'
  
           console.log(main.blog);
-          this.headi =""
-          this.pageHeading = main.blog.heading;
-          this.pageSubHeading = main.blog.subHeading;
-          this.bodyHtml = main.blog.bodyHtml
-          this.author = main.blog.author
+          console.log(main.blog.author)
+           $scope.heading =main.blog.heading;
+           $scope.pageHeading = main.blog.heading;
+           $scope.subHeading = main.blog.subHeading;
+           $scope.bodyHtml = main.blog.bodyHtml
+          $scope.author = main.blog.author
+         // console.log(this.as)
 
         }, function errorCallback(response) {
           // called asynchronously if an error occurs
@@ -285,43 +289,49 @@ myApp.controller('blogEditController',['$http',function($http) {
  
 
  // this.baseUrl = 'https://projectsapi.edwisor.com/api/blogs';
+main = this;
 
-  //this.createPost = function(){
+//this.baseUrl = 'https://projectsapi.edwisor.com/api/blogs';
 
-    //  var myData ={
+  this.updatePost = function(){
+    //console.log(this.blogId)
+console.log($scope.heading);
+      var myData ={
 
-     //     heading     : main.heading,
-     //     subHeading  : main.subHeading,
-     //     bodyHtml    : main.bodyHtml,
-     //     author      : main.author
+          heading     : $scope.heading,
+          subHeading  :  $scope.subHeading,
+          bodyHtml    :  $scope.bodyHtml,
+          author      :  $scope.author
 
 
-     // }
+      }
+       console.log(myData)
+     
 
       //console.log(myData);
    
-     // $http({
-    // //   method: 'POST',
-     //   data  : myData,
-     //   url: main.baseUrl+'/create'
-     // }).then(function successCallback(response) {
-          // this callback will be called asynchronously
-          // when the response is available
-          //console.log(response);
-       //   alert("blog created successfully");
-        //  window.location = 'post.html?blogId='+response.data.data.blogId;
+      $http({
+          method: 'PUT',
+          data  : myData,
+          url: main.baseUrl+ "/" +this.blogId + '/edit'
+        }).then(function successCallback(response) {
+           //this callback will be called asynchronously
+           //when the response is available
+          console.log(response);
+          alert("blog edited successfully");
+          window.location = 'post.html?blogId='+response.data.data.blogId;
           
 
-       // }, function errorCallback(response) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-       //   alert("some error occurred. Check the console.");
-      //    console.log(response);
-       // });
+        }, function errorCallback(response) {
+           //called asynchronously if an error occurs
+           //or server returns response with an error status.
+          alert("some error occurred. Check the console.");
+          console.log(response);
+       });
 
 
- //}// end load all blogs
+ }// end load all blogs
    
 
 
-}]); // end controller
+}); // end controller
